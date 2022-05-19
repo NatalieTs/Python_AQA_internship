@@ -20,7 +20,7 @@ for i in nums:
     for y in i:
         t.append(int(y))
     result.append(tuple(t))
-
+result = tuple(result)
 assert result == ((333, 33), (1416, 55))
 
 # Write a Python program to convert a given tuple of positive integers into an integer.
