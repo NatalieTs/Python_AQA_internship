@@ -1,7 +1,7 @@
 # 1. if-elif-else
 # Fill missing pieces (____) of the following code such that prints make sense.
+name = 'John Doe'
 
-name = input('Enter your name ')
 if len(name) > 20:
     print('Name "{}" is more than 20 chars long'.format(name))
     length_description = 'long'
