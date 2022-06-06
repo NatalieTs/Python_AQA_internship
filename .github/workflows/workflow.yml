@@ -24,6 +24,12 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      - name: Install flake8
+        run: pip install flake8
+      - name: Install black
+        run: pip install black
       - name: Run checks
         run: |
-         chmod +x ./test.sh && ./test.sh
+          flake8
+          black
+          chmod +x ./test.sh && ./test.sh
