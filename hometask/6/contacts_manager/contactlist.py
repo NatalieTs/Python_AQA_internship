@@ -1,4 +1,7 @@
 from tabulate import tabulate
+from contacts_manager.input_error import InputError
+
+
 class ContactList:
     def __init__(self):
         self.list_contact = []
@@ -26,5 +29,7 @@ class ContactList:
         print(tabulate(table, headers=['Name', 'Phone', 'Email']))
 
     def delete_contact(self, delete):
+        if delete not in range(1, len(self.list_contact) + 1):
+            raise InputError('You dont have such contact!')
         self.list_contact.pop(delete - 1)
         print('The contact was removed')
