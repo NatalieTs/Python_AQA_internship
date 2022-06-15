@@ -1,0 +1,705 @@
+{
+	"info": {
+		"_postman_id": "844fb8eb-1526-4d85-b1e5-7ac30d41a90e",
+		"name": "My test collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16325890"
+	},
+	"item": [
+		{
+			"name": "tests with valid params",
+			"item": [
+				{
+					"name": "creating user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const {Property} = require('postman-collection');",
+									"",
+									"let NewUserEmail = Property.replaceSubstitutions(\"{{$randomEmail}}\");",
+									"pm.globals.set(\"NewUserEmail\", NewUserEmail);",
+									"console.log(NewUserEmail)",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create user with valid params is OK\", function(){",
+									"    pm.response.to.have.status(201)",
+									"});",
+									"pm.test(\"Check response body\", function(){",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"GenryHerr\");",
+									"    pm.expect(jsonData.email).to.eql(pm.globals.get(\"NewUserEmail\"));",
+									"    pm.expect(jsonData.gender).to.eql(\"male\");",
+									"    pm.expect(jsonData.status).to.eql(\"inactive\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "0cbd3c13fcb83934fc093c9e9e60e55e83acaea7c4b44553df3af9a5942881b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "email",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "GenryHerr",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{NewUserEmail}}",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "male",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "inactive",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://gorest.co.in/public/v2/users",
+							"protocol": "https",
+							"host": [
+								"gorest",
+								"co",
+								"in"
+							],
+							"path": [
+								"public",
+								"v2",
+								"users"
+							]
+						},
+						"description": "creating user\nhttps://gorest.co.in/public/v2/users/16121"
+					},
+					"response": []
+				},
+				{
+					"name": "get users details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get user details is OK\", function(){",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"pm.test(\"Check response body\", function(){",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.not.be.empty;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "0cbd3c13fcb83934fc093c9e9e60e55e83acaea7c4b44553df3af9a5942881b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://gorest.co.in/public/v2/users/",
+							"protocol": "https",
+							"host": [
+								"gorest",
+								"co",
+								"in"
+							],
+							"path": [
+								"public",
+								"v2",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update users details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Update user params is OK\", function(){",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"pm.test(\"Check response body\", function(){",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Senior\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest(\"https://gorest.co.in/public/v2/users/\", function (err, response) {",
+									"    console.log(response.json());",
+									"    var x = response.json();",
+									"    pm.globals.set(\"user_id\", x[0].id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "0cbd3c13fcb83934fc093c9e9e60e55e83acaea7c4b44553df3af9a5942881b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Senior",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://gorest.co.in/public/v2/users/{{user_id}}",
+							"protocol": "https",
+							"host": [
+								"gorest",
+								"co",
+								"in"
+							],
+							"path": [
+								"public",
+								"v2",
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Delete user is OK\", function(){",
+									"    pm.response.to.have.status(204)",
+									"});",
+									"pm.test(\"Check deleted user\", function(){",
+									"   pm.sendRequest(\"https://gorest.co.in/public/v2/users/\" + pm.collectionVariables.get(\"newUserId\"), function (err, response) {",
+									"       console.log(response)",
+									"        pm.expect(response).to.have.status(404)",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "0cbd3c13fcb83934fc093c9e9e60e55e83acaea7c4b44553df3af9a5942881b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://gorest.co.in/public/v2/users/{{newUserId}}",
+							"protocol": "https",
+							"host": [
+								"gorest",
+								"co",
+								"in"
+							],
+							"path": [
+								"public",
+								"v2",
+								"users",
+								"{{newUserId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const {Property} = require('postman-collection');",
+							"",
+							"let userEmail = Property.replaceSubstitutions(\"{{$randomEmail}}\");",
+							"pm.collectionVariables.set(\"userEmail\", userEmail);",
+							"console.log(userEmail)",
+							"",
+							"const postRequest = {",
+							"  url: 'https://gorest.co.in/public/v2/users',",
+							"  method: 'POST',",
+							"  header: {",
+							"    'Content-Type': 'application/json',",
+							"    'Authorization': 'Bearer 0cbd3c13fcb83934fc093c9e9e60e55e83acaea7c4b44553df3af9a5942881b4'",
+							"  },",
+							"  body: {",
+							"    mode: 'raw',",
+							"    raw: JSON.stringify({\"name\":\"Mister X\",\"email\":pm.collectionVariables.get(\"userEmail\"),\"gender\":\"male\",\"status\":\"active\"})",
+							"  }",
+							"};",
+							"pm.sendRequest(postRequest, function (err, response) {",
+							"    if (err) {",
+							"        console.log(err);",
+							"    }",
+							"    console.log(response.json());",
+							"    var x = response.json();",
+							"    pm.collectionVariables.set(\"newUserId\", x.id);",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "tests create user with invalid params",
+			"item": [
+				{
+					"name": "creating user with blank email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create user with blank params\", function(){",
+									"    pm.response.to.have.status(422)",
+									"});",
+									"pm.test('Body contains error message', function(){",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0].message).to.eql(\"can't be blank\");",
+									"    pm.expect(jsonData[0].field).to.eql(\"email\");",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "0cbd3c13fcb83934fc093c9e9e60e55e83acaea7c4b44553df3af9a5942881b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "email",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Mister",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "male",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://gorest.co.in/public/v2/users",
+							"protocol": "https",
+							"host": [
+								"gorest",
+								"co",
+								"in"
+							],
+							"path": [
+								"public",
+								"v2",
+								"users"
+							]
+						},
+						"description": "creating user\nhttps://gorest.co.in/public/v2/users/16121"
+					},
+					"response": []
+				},
+				{
+					"name": "creating user with blank name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create user with blank params\", function(){",
+									"    pm.response.to.have.status(422)",
+									"});",
+									"pm.test('Body contains error message', function(){",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0].message).to.eql(\"can't be blank\");",
+									"    pm.expect(jsonData[0].field).to.eql(\"email\");",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "0cbd3c13fcb83934fc093c9e9e60e55e83acaea7c4b44553df3af9a5942881b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "email",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Mister",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "male",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://gorest.co.in/public/v2/users",
+							"protocol": "https",
+							"host": [
+								"gorest",
+								"co",
+								"in"
+							],
+							"path": [
+								"public",
+								"v2",
+								"users"
+							]
+						},
+						"description": "creating user\nhttps://gorest.co.in/public/v2/users/16121"
+					},
+					"response": []
+				},
+				{
+					"name": "creating user with blank gender",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create user with blank params\", function(){",
+									"    pm.response.to.have.status(422)",
+									"});",
+									"pm.test('Body contains error message', function(){",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0].message).to.eql(\"can't be blank\");",
+									"    pm.expect(jsonData[0].field).to.eql(\"email\");",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "0cbd3c13fcb83934fc093c9e9e60e55e83acaea7c4b44553df3af9a5942881b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "email",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Mister",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "male",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://gorest.co.in/public/v2/users",
+							"protocol": "https",
+							"host": [
+								"gorest",
+								"co",
+								"in"
+							],
+							"path": [
+								"public",
+								"v2",
+								"users"
+							]
+						},
+						"description": "creating user\nhttps://gorest.co.in/public/v2/users/16121"
+					},
+					"response": []
+				},
+				{
+					"name": "creating user with blank status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create user with blank params\", function(){",
+									"    pm.response.to.have.status(422)",
+									"});",
+									"pm.test('Body contains error message', function(){",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0].message).to.eql(\"can't be blank\");",
+									"    pm.expect(jsonData[0].field).to.eql(\"email\");",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "0cbd3c13fcb83934fc093c9e9e60e55e83acaea7c4b44553df3af9a5942881b4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "email",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Mister",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "male",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://gorest.co.in/public/v2/users",
+							"protocol": "https",
+							"host": [
+								"gorest",
+								"co",
+								"in"
+							],
+							"path": [
+								"public",
+								"v2",
+								"users"
+							]
+						},
+						"description": "creating user\nhttps://gorest.co.in/public/v2/users/16121"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "https://gorest.co.in/public/v2/users/",
+			"value": "usersData",
+			"type": "string"
+		},
+		{
+			"key": "newUserId",
+			"value": ""
+		},
+		{
+			"key": "userEmail",
+			"value": ""
+		}
+	]
+}
