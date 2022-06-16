@@ -2,11 +2,11 @@ from phonenumbers import NumberParseException
 from pyisemail import is_email
 import phonenumbers
 
-class Contact:
-    def __init__(self, contact_name, contact_number, contact_email):
-        self.name = contact_name
-        self.number = contact_number
-        self.mail = contact_email
+class Contact(object):
+    def __init__(self, name, number, mail):
+        self.name = name
+        self.number = number
+        self.mail = mail
 
     def match(self, term):
         return term in self.name or term in self.number

@@ -1,11 +1,18 @@
+import json
+
 from contacts_manager.contact import Contact
 from contacts_manager.contactlist import ContactList
 from contacts_manager.input_error import InputError
+import atexit
 
 class Dispatcher:
     def __init__(self):
         self.cl = ContactList()
+        self.cl.from_dict()
+        atexit.register(self.cl.contact_book)
+
         self.intro()
+
 
     def get_valid_name(self):
         contact_name = input('Enter the name ')
