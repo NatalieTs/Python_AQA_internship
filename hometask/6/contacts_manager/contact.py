@@ -2,7 +2,7 @@ from phonenumbers import NumberParseException
 from pyisemail import is_email
 import phonenumbers
 
-class Contact(object):
+class Contact:
     def __init__(self, name, number, mail):
         self.name = name
         self.number = number
