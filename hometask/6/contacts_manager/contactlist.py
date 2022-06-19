@@ -1,13 +1,20 @@
 from tabulate import tabulate
 from contacts_manager.input_error import InputError
-
+from contacts_manager import contact_book
 
 class ContactList:
     def __init__(self):
         self.list_contact = []
 
+
     def add_to_list(self, contact):
         self.list_contact.append(contact)
+
+    def load(self):
+        self.list_contact = contact_book.from_dict()
+
+    def save(self):
+        contact_book.contact_book(self.list_contact)
 
     def find(self, term):
         find_list = []
