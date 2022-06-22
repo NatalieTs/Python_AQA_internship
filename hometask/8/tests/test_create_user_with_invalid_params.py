@@ -1,18 +1,14 @@
 import json
-
-import pytest
-from mimesis import Person
+from tests import http_client
 
 
-@pytest.fixture(scope="function")
-def prepare_user(http_client):
-    person = Person('en')
+def test_cant_create_user_with_blank_email(http_client):
     payload = {'name': 'Frau Müller',
-               'email': person.email(),
+               'email': '',
                'gender': 'female',
                'status': 'inactive'}
     response = http_client.post(payload)
 
     body = json.loads(response.text)
-    yield body.pop("id")
-
+    assert response.status_code == 422
+    assert body[0]['message'] == "can't be blank"

@@ -8,7 +8,7 @@ def test_create_user(http_client):
                'email': person.email(),
                'gender': 'female',
                'status': 'inactive'}
-    response = http_client.post("/public/v2/users", payload)
+    response = http_client.post(payload)
 
     body = json.loads(response.text)
     body.pop("id")

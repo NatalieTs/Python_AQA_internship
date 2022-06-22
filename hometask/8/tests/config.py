@@ -1,9 +1,6 @@
 import configparser
 import os
 import sys
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 class Config(object):
@@ -13,11 +10,12 @@ class Config(object):
         pass
 
     def read_ini(self):
-        config_file_name = os.environ.get("config-file", "project-config.ini")
-        root_path = os.path.join(sys.path[0], '../..', config_file_name)
+        config_file_path = os.path.join(sys.path[0], '../..', "project-config.ini")
         parser = configparser.ConfigParser()
-        parser.read(root_path)
+        parser.read("project-config.ini")
+        parser.read(config_file_path)
         return parser
 
     def __getattr__(self, item):
-        return os.environ.get(item.upper(), self.config[item])
+        return self.config[item]
+
