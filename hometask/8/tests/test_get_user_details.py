@@ -1,10 +1,7 @@
-import json
-
-
 def test_get_user_details(http_client):
-    response = http_client.get()
-    body = json.loads(response.text)
+    status_code, body = http_client.get()
+
     assert len(body) > 0
-    assert response.status_code == 200
+    assert status_code == 200
 
 

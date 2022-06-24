@@ -11,8 +11,7 @@ def prepare_user(http_client):
                'email': person.email(),
                'gender': 'female',
                'status': 'inactive'}
-    response = http_client.post(payload)
+    status_code, body = http_client.post(payload)
 
-    body = json.loads(response.text)
     yield body.pop("id")
 
