@@ -1,4 +1,3 @@
-import json
 from mimesis import Person
 
 
@@ -8,10 +7,8 @@ def test_create_user(http_client):
                'email': person.email(),
                'gender': 'female',
                'status': 'inactive'}
-    response = http_client.post(payload)
-
-    body = json.loads(response.text)
+    status_code, body = http_client.post(payload)
     body.pop("id")
-    assert response.status_code == 201
+    assert status_code == 201
     assert payload == body
 
